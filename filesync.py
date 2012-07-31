@@ -30,14 +30,14 @@ class FileSyncFilesCommand(sublime_plugin.WindowCommand):
     pass
 
   def is_visible(self, files):
-    return _enabled and len(files) > 1
+    return _enabled and len(files) > 1 and check_files_syncables(files)
 
 class FileSyncFileCommand(sublime_plugin.WindowCommand):
   def run(self, files):
     pass
 
   def is_visible(self, files):
-    return _enabled and len(files) < 2
+    return _enabled and len(files) < 2 and check_files_syncables(files)
 
 class FileSyncBuild(sublime_plugin.EventListener):
   def on_post_save(self, view):
@@ -70,6 +70,20 @@ _settings_filename = "FileSync.sublime-settings"
 _settings = sublime.load_settings(_settings_filename)
 _enabled = _settings.get("enabled")
 
+def check_files_syncables(files):
+  syncs = False
+  for file in files:
+    syncs = check_file_syncable(file)
+  return syncs
+
+def check_file_syncable(file):
+  sync = False
+  mappings = _settings.get("mappings")
+  for mapping in mappings:
+    source_folder = os.path.abspath(mapping.get('source'))
+    if source_folder in file:
+      sync = True
+  return sync
 
 def log(**kwargs):
   print kwargs.keys()
