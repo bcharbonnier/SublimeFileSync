@@ -1,0 +1,14 @@
+[
+  { "caption": "-" },
+  {
+    "caption": "FileSync: Sync this file",
+    "command": "file_sync_file",
+    "args": { "files": [] }
+  },
+  {
+    "caption": "FileSync: Sync these files",
+    "command": "file_sync_files",
+    "args": { "files": [] }
+  },
+  { "caption": "-" }
+]

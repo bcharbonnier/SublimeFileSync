@@ -1,0 +1,20 @@
+[
+  {
+    "caption": "FileSync: Enable",
+    "command": "file_sync_enable"
+  },
+  {
+    "caption": "Preferecences: FileSync - Default",
+    "command": "file_sync_open_settings",
+    "args": {
+      "file": "/FileSync/FileSync.sublime-settings"
+    }
+  },
+  {
+    "caption": "Preferecences: FileSync - User",
+    "command": "file_sync_open_settings",
+    "args": {
+      "file": "/User/FileSync.sublime-settings"
+    }
+  }
+]

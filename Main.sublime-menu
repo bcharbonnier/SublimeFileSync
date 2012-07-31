@@ -1,0 +1,48 @@
+[
+  {
+    "id": "tools",
+    "children": [
+      { "caption": "-" },
+      {
+        "caption": "FileSync",
+        "children": [
+          { "caption": "Enable FileSync", "command": "file_sync_enable", "checked": true },
+          { "caption": "-" },
+          {
+            "caption": "Read Me",
+            "command": "open_file",
+            "args": {
+              "file": "${packages}/FileSync/README.md"
+            }
+          }
+        ]
+      },
+      { "caption": "-" }
+    ]
+  },
+  {
+    "id": "preferences",
+    "children": [
+      { "caption": "-" },
+      {
+        "caption": "FileSync",
+        "children": [
+          {
+            "caption": "Settings - Default",
+            "command": "file_sync_open_settings",
+            "args": {
+              "file": "/FileSync/FileSync.sublime-settings"
+            }
+          },{
+            "caption": "Settings - User",
+            "command": "file_sync_open_settings",
+            "args": {
+              "file": "/User/FileSync.sublime-settings"
+            }
+          }
+        ]
+      },
+      { "caption": "-" }
+    ]
+  }
+]
