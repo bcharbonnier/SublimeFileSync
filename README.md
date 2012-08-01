@@ -31,8 +31,12 @@ To synchronise 2 distinct locations you just need to define mappings from within
 
     "mappings": [
       {
-        "source": "C:/Documents/Work/MyAwesomeProject",
+        "source": "C:/Documents/Work/MyAwesomeProject", //Windows style paths
         "destination": "G:/Apache/project"
+      },
+      {
+        "source": "/Users/Benoit/Work/MySecretProject", //Unix style paths
+        "destination": "/www/myproject"
       }
     ]
 
