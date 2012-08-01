@@ -7,22 +7,29 @@ import functools
 import string
 
 _DEBUG = True
+_enabled = False
+_settings = None
+_preferences = None
+_settings_filename = "FileSync.sublime-settings"
+_preferences_filename = "Preferences.sublime-settings"
 
 class FileSyncOpenSettingsCommand(sublime_plugin.WindowCommand):
   def run(self, file):
     sublime.active_window().open_file(sublime.packages_path() + file)
 
   def is_enabled(self):
+    global _enabled
     return _enabled
 
 class FileSyncEnableCommand(sublime_plugin.WindowCommand):
   def run(self):
     global _enabled
     _enabled = not _enabled
-    _settings.set("enabled", _enabled)
-    sublime.save_settings(_settings_filename)
+    _preferences.set("filesync_enabled", _enabled)
+    sublime.save_settings(_preferences_filename)
 
   def is_checked(self):
+    global _enabled
     return _enabled
 
 class FileSyncFilesCommand(sublime_plugin.WindowCommand):
@@ -30,6 +37,7 @@ class FileSyncFilesCommand(sublime_plugin.WindowCommand):
     pass
 
   def is_visible(self, files):
+    global _enabled
     return _enabled and len(files) > 1 and check_files_syncables(files)
 
 class FileSyncFileCommand(sublime_plugin.WindowCommand):
@@ -37,10 +45,12 @@ class FileSyncFileCommand(sublime_plugin.WindowCommand):
     pass
 
   def is_visible(self, files):
+    global _enabled
     return _enabled and len(files) < 2 and check_files_syncables(files)
 
 class FileSyncBuild(sublime_plugin.EventListener):
   def on_post_save(self, view):
+    global _enabled
     if _enabled:
       self.do_sync(view)
 
@@ -60,15 +70,19 @@ class FileSyncBuild(sublime_plugin.EventListener):
           os.makedirs(final_dest_folder)
         shutil.copy2(file, dest)
         #log(file + " -> " + dest)
-        self.updateStatus( "FileSync: " + file + " -> " + dest )
+        self.updateStatus( "FileSync: " + file + " has been synchronised -> " + dest )
 
   def updateStatus(self, text):
     sublime.set_timeout(functools.partial(sublime.status_message, text), 1000)
 
+def initFilesync():
+  global _settings, _preferences, _enabled
+  _settings = sublime.load_settings(_settings_filename)
+  _preferences = sublime.load_settings(_preferences_filename)
+  _enabled = _preferences.get("filesync_enabled")
+  #print "FileSync: enabled %s" % _enabled
 
-_settings_filename = "FileSync.sublime-settings"
-_settings = sublime.load_settings(_settings_filename)
-_enabled = _settings.get("enabled")
+sublime.set_timeout(functools.partial(initFilesync), 1000)
 
 def check_files_syncables(files):
   syncs = False
