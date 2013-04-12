@@ -1,48 +1,56 @@
 [
   {
     "id": "tools",
-    "children": [
-      { "caption": "-" },
+    "children":
+    [
       {
         "caption": "FileSync",
-        "children": [
+        "children":
+        [
           { "caption": "Enable FileSync", "command": "file_sync_enable", "checked": true },
-          { "caption": "-" },
           {
             "caption": "Read Me",
             "command": "open_file",
             "args": {
               "file": "${packages}/FileSync/README.md"
             }
-          }
+          },
+          { "caption": "-" }
         ]
-      },
-      { "caption": "-" }
+      }
     ]
   },
   {
     "id": "preferences",
+    "mnemonic": "n",
     "children": [
-      { "caption": "-" },
       {
-        "caption": "FileSync",
+        "caption": "Package Settings",
+        "mnemonic": "p",
+        "id": "package-settings",
         "children": [
           {
-            "caption": "Settings - Default",
-            "command": "file_sync_open_settings",
-            "args": {
-              "file": "/FileSync/FileSync.sublime-settings"
-            }
-          },{
-            "caption": "Settings - User",
-            "command": "file_sync_open_settings",
-            "args": {
-              "file": "/User/FileSync.sublime-settings"
-            }
+            "caption": "FileSync",
+            "children": [
+              {
+                "caption": "Settings - Default",
+                "command": "open_file",
+                "args": {
+                  "file": "${packages}/FileSync/FileSync.sublime-settings"
+                }
+              },
+              {
+                "caption": "Settings - User",
+                "command": "open_file",
+                "args": {
+                  "file": "${packages}/User/FileSync.sublime-settings"
+                }
+              },
+              { "caption": "-" }
+            ]
           }
         ]
-      },
-      { "caption": "-" }
+      }
     ]
   }
 ]

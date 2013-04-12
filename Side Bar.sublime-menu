@@ -1,14 +1,34 @@
 [
+
   { "caption": "-" },
-  {
-    "caption": "FileSync: Sync this file",
-    "command": "file_sync_file",
-    "args": { "files": [] }
-  },
-  {
-    "caption": "FileSync: Sync these files",
-    "command": "file_sync_files",
-    "args": { "files": [] }
+  { "caption": "FileSync",
+    "children": [
+      {
+        "caption": "FileSync is not active for this path",
+        "command": "file_sync_no_mapping",
+        "args": { "paths": [] }
+      },
+      {
+        "caption": "Sync this file now",
+        "command": "file_sync_file",
+        "args": { "files": [] }
+      },
+      {
+        "caption": "Sync these files now",
+        "command": "file_sync_files",
+        "args": { "files": [] }
+      },
+      {
+        "caption": "Sync this folder now",
+        "command": "file_sync_folder",
+        "args": { "paths": [] }
+      },
+      { "caption": "-" },
+      {
+        "command": "file_sync_add_mapping",
+        "args": { "paths": [] }
+      }
+    ]
   },
   { "caption": "-" }
 ]

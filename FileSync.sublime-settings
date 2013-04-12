@@ -1,4 +1,5 @@
 {
+  "exclude_folder_names": [".git"],
   "mappings": [
 
   ]

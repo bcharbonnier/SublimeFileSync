@@ -27,7 +27,9 @@ Sublime Package Control allows you to easily install or remove `Filesync` from w
 Usage
 -----
 
-To synchronise 2 distinct locations you just need to define mappings from within your User preferences file. Open `Preferences\FileSync\Settings - User` and add a *mappings* section to it
+### Mappings
+
+To synchronise 2 distinct locations you just need to define mappings from within your User preferences file. Open `Preferences\Package Settings\ FileSync\Settings - User` and add a *mappings* section to it
 
     "mappings": [
       {
@@ -42,7 +44,14 @@ To synchronise 2 distinct locations you just need to define mappings from within
 
 As *mappings* is an array, you can add as many number of synchronisation definitions as you want.
 
-Extra Features
---------
+### Sidebar
 
-* FileSync plugin can be desactivated from Sublime Text 2 menubar. Click on `Tools\FileSync\Enable FileSync`
+FileSync could also be used from the Sublime sidebar.
+
+For a workspace folder on which FileSync is not yet active you have options to create mappings from the contextual menu.
+
+Select a folder and create a mapping for it, or select a file and create a mapping for the parent folder.
+
+### Force a synchronisation
+
+To force a synchronisation, just click on `Sync this file now` through the Sidebar Contextual menu.
