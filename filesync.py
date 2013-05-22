@@ -5,6 +5,7 @@ import os.path
 import shutil
 import functools
 import sys
+import fnmatch
 
 
 _DEBUG = False
@@ -86,9 +87,15 @@ class FileSyncFileCommand(sublime_plugin.WindowCommand):
 class FileSyncFolderCommand(sublime_plugin.WindowCommand):
     def run(self, paths=[]):
         folder = paths[0]
+        log("----------------------------------------------------------------------------------------------------------------------------")
+        log("Starting sync for '%s'" % folder)
+        log("----------------------------------------------------------------------------------------------------------------------------")
         for file in listdir_fullpath(folder):
             if os.path.isdir(file) is False:
                 sync_file(file)
+        log("----------------------------------------------------------------------------------------------------------------------------")
+        log("End of sync for '%s'" % folder)
+        log("----------------------------------------------------------------------------------------------------------------------------")
 
     def is_visible(self, paths=[]):
         global _enabled
@@ -153,7 +160,7 @@ class FileSyncNoMappingCommand(sublime_plugin.WindowCommand):
 
         if not _enabled:
             return False
-        #print("FileSync: syncable %s" % paths, check_files_syncables(paths))
+        #log("Syncable %s" % paths, check_files_syncables(paths))
         return check_files_syncables(paths) is False
 
 
@@ -165,7 +172,8 @@ class FileSyncBuild(sublime_plugin.EventListener):
 
 
 def updateStatus(text):
-    sublime.set_timeout(functools.partial(sublime.status_message, text), 1000)
+    log(text)
+    sublime.set_timeout(functools.partial(sublime.status_message, "FileSync: %s" % text), 500)
 
 
 def initFilesync():
@@ -173,9 +181,16 @@ def initFilesync():
     _settings = sublime.load_settings("FileSync.sublime-settings")
     _preferences = sublime.load_settings("Preferences.sublime-settings")
     _enabled = _preferences.get("filesync_enabled")
-    #print("FileSync: enabled %s" % _enabled)
+    if(_enabled):
+        log("Plugin is enabled")
+    else:
+        log("Plugin is disabled")
 
 sublime.set_timeout(functools.partial(initFilesync), 500)
+
+
+def log(text):
+    print("[FileSync] %s" % text)
 
 
 def check_files_syncables(files):
@@ -196,28 +211,50 @@ def check_file_syncable(file):
 
 
 def listdir_fullpath(d):
-    return [os.path.join(d, f) for f in os.listdir(d)]
+    global _settings
+    files = []
+    for root, dirnames, filenames in os.walk(d):
+        folder_excluded = False
+        for exclusion in _settings.get("exclude_folder_names"):
+            if exclusion in os.path.dirname(root):
+                log("Folder '%s' excluded from sync list..." % root)
+                folder_excluded = True
+                break
+        if folder_excluded:
+            continue
+        for filename in filenames:
+            files.append(os.path.join(root, filename))
+    return files
 
 
 def sync_file(file):
     global _settings
-    #print("FileSync: filename", file)
+    log("Trying to sync '%s'" % file)
 
     for exclusion in _settings.get("exclude_folder_names"):
-        if exclusion in file:
-            #print("FileSync: skipping sync for %s" % file)
+        if exclusion in os.path.dirname(file):
+            log("Global exclusion pattern detected ('%s'), skipping sync..." % exclusion)
             return
 
     mappings = _settings.get("mappings")
     for mapping in mappings:
         source_folder = os.path.abspath(mapping.get('source'))
         dest_folder = os.path.abspath(mapping.get('destination'))
-        #print(source_folder, "\n", dest_folder, "\n", file)
         if (source_folder in file):
             dest = file.replace(source_folder, dest_folder)
+
+            exclude_pattern_list = mapping.get('exclude_pattern_list')
+            if exclude_pattern_list:
+                for exclusion in exclude_pattern_list:
+                    if fnmatch.fnmatch(file, exclusion):
+                        log("Exclusion pattern detected ('%s'), skipping sync..." % exclusion)
+                        return
+
+            #log("Syncing %s" % (file + " -> " + dest))
+
             final_dest_folder = os.path.dirname(dest)
             if not os.path.exists(final_dest_folder):
                 os.makedirs(final_dest_folder)
             shutil.copy2(file, dest)
-            #print("FileSync: %s" % (file + " -> " + dest))
-            updateStatus("FileSync: %s has been synchronised -> %s" % (file, dest))
+            log("Copying...")
+            updateStatus("%s has been synchronised -> %s" % (file, dest))

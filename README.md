@@ -44,6 +44,37 @@ To synchronise 2 distinct locations you just need to define mappings from within
 
 As *mappings* is an array, you can add as many number of synchronisation definitions as you want.
 
+For each mapping you define, you can also specify a list of patterns to be considered as *excluded*
+
+### Exclusions
+
+There are 2 types of exclusion that you can define
+
+##### Global exclusion
+
+Open your User preferences file `Preferences\Package Settings\ FileSync\Settings - User` and just add an `exclude_folder_names` section as an array.
+
+    "exclude_folder_names": ["myfolder"],
+	"mappings": [ ... ]
+
+
+Any file that is contained inside a folder that name is included in this array will be skipped.
+
+The default value of that array is set to `[".git", ".svn", ".hg"]`
+
+##### Local exclusion
+
+Inside each `mapping` declaration you can define an `exclude_pattern_list`.
+
+    "mappings": [
+      {
+        "source": "C:/Documents/Work/MyAwesomeProject", //Windows style paths
+        "destination": "G:/Apache/project",
+		"exclude_pattern_list": ["*.bak"]
+      }
+
+With this any file of type `.bak` will not be part of the sync.
+
 ### Sidebar
 
 FileSync could also be used from the Sublime sidebar.
@@ -54,4 +85,27 @@ Select a folder and create a mapping for it, or select a file and create a mappi
 
 ### Force a synchronisation
 
-To force a synchronisation, just click on `Sync this file now` through the Sidebar Contextual menu.
+To force a synchronisation, just click on `Sync this file now` or `Sync this folder now` through the Sidebar Contextual menu.
+
+
+Debugging
+-----
+
+If you want to see what is going on, just hit `` CTRL+` `` to open the python console.
+
+Everything related to FileSync will look like that:
+
+    [FileSync] ----------------------------------------------------------------------------------------------------------------------------
+    [FileSync] Starting sync for 'C:\Documents and Settings\bcharbonnier\Application Data\Sublime Text 2\Packages\FileSync'
+    [FileSync] ----------------------------------------------------------------------------------------------------------------------------
+    [FileSync] Folder 'C:\Documents and Settings\bcharbonnier\Application Data\Sublime Text 2\Packages\FileSync\.git\hooks' excluded from sync list...
+    [FileSync] Folder 'C:\Documents and Settings\bcharbonnier\Application Data\Sublime Text 2\Packages\FileSync\.git\info' excluded from sync list...
+    [FileSync] Folder 'C:\Documents and Settings\bcharbonnier\Application Data\Sublime Text 2\Packages\FileSync\.git\logs' excluded from sync list...
+    [FileSync] Trying to sync 'C:\Documents and Settings\bcharbonnier\Application Data\Sublime Text 2\Packages\FileSync\.gitignore'
+    [FileSync] Copying...
+    FileSync] C:\Documents and Settings\bcharbonnier\Application Data\Sublime Text 2\Packages\FileSync\.gitignore has been synchronised -> D:\Pouet\FileSync\.gitignore
+    [FileSync] Trying to sync 'C:\Documents and Settings\bcharbonnier\Application Data\Sublime Text 2\Packages\FileSync\tests\popo.jsp'
+    [FileSync] Exclusion pattern detected ('*.jsp'), skipping sync...
+    [FileSync] ----------------------------------------------------------------------------------------------------------------------------
+    [FileSync] End of sync for 'C:\Documents and Settings\bcharbonnier\Application Data\Sublime Text 2\Packages\FileSync'
+    [FileSync] ----------------------------------------------------------------------------------------------------------------------------
