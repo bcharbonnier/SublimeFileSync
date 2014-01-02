@@ -4,14 +4,14 @@
     "command": "file_sync_enable"
   },
   {
-    "caption": "Preferecences: FileSync - Default",
+    "caption": "Preferences: FileSync - Default",
     "command": "open_file",
     "args": {
       "file": "${packages}/FileSync/FileSync.sublime-settings"
     }
   },
   {
-    "caption": "Preferecences: FileSync - User",
+    "caption": "Preferences: FileSync - User",
     "command": "open_file",
     "args": {
       "file": "${packages}/User/FileSync.sublime-settings"
