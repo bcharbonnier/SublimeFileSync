@@ -1,7 +1,7 @@
 What is this?
 =============
 
-SublimeFileSync is a plugin for the text editor [SublimeText 2](http://www.sublimetext.com/2) providing an easy way to synchronise files between different locations.
+SublimeFileSync is a plugin for the text editor [SublimeText 2](http://www.sublimetext.com/2) and [3](http://www.sublimetext.com/3) providing an easy way to synchronise files between different locations.
 
 The main goal is to keep files outside of Sublime Text projects in-sync with Sublime Text project files. The plugin works as an EventListener and will synchronise any matching files as soon as you save it.
 
