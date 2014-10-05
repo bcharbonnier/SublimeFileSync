@@ -26,7 +26,9 @@ class FileSyncEnableCommand(sublime_plugin.WindowCommand):
         global _enabled
         _enabled = not _enabled
         _preferences.set("filesync_enabled", _enabled)
-        self.rename_sidebar_menu(_enabled)
+        # ST3 does not extract the .sublime-package in Installed Packages folder, so the rename_sidebar_menu fails
+        if (!is_st3()):
+            self.rename_sidebar_menu(_enabled)
         sublime.save_settings("Preferences.sublime-settings")
         initFilesync()
 
