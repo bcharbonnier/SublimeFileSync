@@ -29,18 +29,21 @@ Usage
 
 ### Mappings
 
-To synchronise 2 distinct locations you just need to define mappings from within your User preferences file. Open `Preferences\Package Settings\ FileSync\Settings - User` and add a *mappings* section to it
+To synchronise 2 distinct locations you just need to define mappings from within your User preferences file. Open `Preferences\Package Settings\ FileSync\Settings - User`. If the file is new and empty be sure to create an empty JSON Object `{ }` inside the file, then/otherwise add a *mappings* section to it.
 
-    "mappings": [
-      {
-        "source": "C:/Documents/Work/MyAwesomeProject", //Windows style paths
-        "destination": "G:/Apache/project"
-      },
-      {
-        "source": "/Users/Benoit/Work/MySecretProject", //Unix style paths
-        "destination": "/www/myproject"
-      }
-    ]
+    // This is your settings file. Be sure that this is a valid JSON file
+    {
+      "mappings": [
+        {
+          "source": "C:/Documents/Work/MyAwesomeProject", //Windows style paths
+          "destination": "G:/Apache/project"
+        },
+        {
+          "source": "/Users/Benoit/Work/MySecretProject", //Unix style paths
+          "destination": "/www/myproject"
+        }
+      ]
+    }
 
 As *mappings* is an array, you can add as many number of synchronisation definitions as you want.
 
