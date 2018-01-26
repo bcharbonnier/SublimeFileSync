@@ -1,3 +1,8 @@
+++ Project is unmaintained ++
+===========================
+
+I am sorry but did not use Sublime anymore (I have switched to Atom and now VSCode). Anyone willing to maintain this plugin, just ask me and I'll transfer the ownership.
+
 What is this?
 =============
 
